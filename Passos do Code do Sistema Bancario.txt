@@ -1,0 +1,120 @@
+#Especificações da criação do Code do Sistema Bancário
+
+menu = """
+[d] Depositar
+[s] Sacar
+[e] Extrato
+[q] Sair
+
+=> """
+#Define uma string menu que será exibida para o usuário com as opções disponíveis: Depositar, Sacar, Extrato e Sair.
+
+saldo = 0.0
+limite = 500.0
+extrato = ""
+numero_saques = 0
+LIMITE_SAQUES = 3
+
+#Inicializa as variáveis:
+#saldo: o saldo inicial da conta, começando com 0.
+#limite: o limite máximo para um saque individual.
+#extrato: uma string que armazenará as operações realizadas.
+#numero_saques: o número de saques realizados no dia.
+#LIMITE_SAQUES: o limite máximo de saques permitidos por dia.
+
+def depositar(valor, saldo, extrato):
+    if valor > 0:
+        saldo += valor
+        extrato += f"Depósito: R$ {valor:.2f}\n"
+        print(f"Depósito de R$ {valor:.2f} realizado com sucesso!")
+    else:
+        print("Operação falhou! O valor informado é inválido.")
+    return saldo, extrato
+
+#Define a função depositar que:
+#Verifica se o valor do depósito é positivo.
+#Atualiza o saldo e registra o depósito no extrato.
+#Exibe uma mensagem de sucesso ou falha.
+#Retorna o novo saldo e o extrato atualizado.
+
+def sacar(valor, saldo, extrato, numero_saques, limite, LIMITE_SAQUES):
+    if valor > saldo:
+        print("Operação falhou! Você não tem saldo suficiente.")
+    elif valor > limite:
+        print("Operação falhou! O valor do saque excede o limite.")
+    elif numero_saques >= LIMITE_SAQUES:
+        print("Operação falhou! Número máximo de saques excedido.")
+    elif valor > 0:
+        saldo -= valor
+        extrato += f"Saque: R$ {valor:.2f}\n"
+        numero_saques += 1
+        print(f"Saque de R$ {valor:.2f} realizado com sucesso!")
+    else:
+        print("Operação falhou! O valor informado é inválido.")
+    return saldo, extrato, numero_saques
+
+#Define a função sacar que:
+#Verifica se o valor do saque é maior que o saldo.
+#Verifica se o valor do saque excede o limite permitido.
+#Verifica se o número de saques diários já foi atingido.
+#Verifica se o valor do saque é positivo.
+#Atualiza o saldo, registra o saque no extrato, incrementa o número de saques e exibe uma mensagem de sucesso ou falha.
+#Retorna o novo saldo, o extrato atualizado e o número de saques atualizado.
+
+def exibir_extrato(saldo, extrato):
+    print("\n================ EXTRATO ================")
+    if not extrato:
+        print("Não foram realizadas movimentações.")
+    else:
+        print(extrato)
+    print(f"\nSaldo: R$ {saldo:.2f}")
+    print("==========================================")
+
+#Define a função exibir_extrato que:
+#Exibe um cabeçalho para o extrato.
+#Verifica se há movimentações no extrato e exibe o conteúdo.
+#Exibe o saldo atual.
+#Exibe um rodapé para finalizar o extrato.
+
+while True:
+
+#Inicia um loop infinito que será interrompido quando o usuário optar por sair.
+
+    opcao = input(menu)
+
+#Exibe o menu e lê a opção escolhida pelo usuário.
+
+    if opcao == "d":
+        valor = float(input("Informe o valor do depósito: "))
+        saldo, extrato = depositar(valor, saldo, extrato)
+
+#Se a opção for "d" (Depositar):
+#Solicita o valor do depósito.
+#Chama a função depositar e atualiza o saldo e o extrato com o valor depositado.
+
+    elif opcao == "s":
+        valor = float(input("Informe o valor do saque: "))
+        saldo, extrato, numero_saques = sacar(valor, saldo, extrato, numero_saques, limite, LIMITE_SAQUES)
+
+#Se a opção for "s" (Sacar):
+#Solicita o valor do saque.
+#Chama a função sacar e atualiza o saldo, o extrato e o número de saques com os novos valores.
+
+    elif opcao == "e":
+        exibir_extrato(saldo, extrato)
+
+#Se a opção for "e" (Extrato):
+#Chama a função exibir_extrato para exibir o extrato e o saldo atual.
+
+    elif opcao == "q":
+        print("Saindo do sistema. Até logo!")
+        break
+
+#Se a opção for "q" (Sair):
+#Exibe uma mensagem de saída e interrompe o loop, encerrando o programa.
+
+    else:
+        print("Operação inválida, por favor selecione novamente a operação desejada.")
+
+#Se a opção não for nenhuma das anteriores:
+#Exibe uma mensagem indicando que a operação é inválida e solicita que o usuário tente novamente.
