@@ -44,6 +44,4 @@ Utilize os prompts dentro do link do `ChaGPT.
 
 ---
 
-⌨️ com 💜 por [Roberto Costa](https://github.com/felipeAguiarCode)
-
-Prompts voltado para questões do desafio de Code
+⌨️ com 💜 por [Roberto Costa](https://github.com/RobertoAHOW)
