@@ -1,4 +1,4 @@
-#Código de um sistema bancário simples, que permite ao usuário realizar depósitos, saques e exibir o extrato da conta.
+#Código de um sistema bancário simples, que permite ao usuário realizar depósitos, saques e exibir o extrato.
 
 class Banco:
     def __init__(self):
