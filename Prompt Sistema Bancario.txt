@@ -1,4 +1,4 @@
-#Refatore o código e comente as funções criadas e crie para mim uma documentação falando as especificações do código em python para um projeto bancário abaixo:
+#Refatore o código e comente as funções criadas e crie para mim uma documentação falando as especificações do code.
 
 #Contexto:
 
