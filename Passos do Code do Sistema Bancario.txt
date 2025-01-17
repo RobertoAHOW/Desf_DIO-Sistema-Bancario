@@ -1,120 +1,67 @@
-#Especificações da criação do Code do Sistema Bancário
+# Documentação do Projeto Bancário
 
-menu = """
-[d] Depositar
-[s] Sacar
-[e] Extrato
-[q] Sair
+## Classe `Banco`
+A classe `Banco` é responsável por gerenciar as operações básicas de um sistema bancário, incluindo depósito, saque e exibição de extrato.
 
-=> """
-#Define uma string menu que será exibida para o usuário com as opções disponíveis: Depositar, Sacar, Extrato e Sair.
+### Inicialização
+O método `__init__` é o construtor da classe e define os atributos principais da conta:
+- **saldo**: Inicializado com 0.0, representa o saldo atual da conta.
+- **limite**: Define o limite máximo para saques, configurado para R$ 500.00.
+- **extrato**: Armazena as movimentações realizadas na conta como uma string.
+- **numero_saques**: Contador de saques realizados, inicializado como 0.
+- **LIMITE_SAQUES**: Valor constante que limita o número de saques por dia (configurado como 3).
 
-saldo = 0.0
-limite = 500.0
-extrato = ""
-numero_saques = 0
-LIMITE_SAQUES = 3
+---
 
-#Inicializa as variáveis:
-#saldo: o saldo inicial da conta, começando com 0.
-#limite: o limite máximo para um saque individual.
-#extrato: uma string que armazenará as operações realizadas.
-#numero_saques: o número de saques realizados no dia.
-#LIMITE_SAQUES: o limite máximo de saques permitidos por dia.
+### Métodos
 
-def depositar(valor, saldo, extrato):
-    if valor > 0:
-        saldo += valor
-        extrato += f"Depósito: R$ {valor:.2f}\n"
-        print(f"Depósito de R$ {valor:.2f} realizado com sucesso!")
-    else:
-        print("Operação falhou! O valor informado é inválido.")
-    return saldo, extrato
+#### `depositar(self, valor)`
+Realiza um depósito na conta bancária.
+- **Parâmetros**:
+  - `valor` (float): Valor a ser depositado.
+- **Comportamento**:
+  - Verifica se o valor informado é maior que zero.
+  - Caso válido, incrementa o saldo e adiciona o depósito ao extrato.
+  - Caso inválido, exibe uma mensagem de falha.
 
-#Define a função depositar que:
-#Verifica se o valor do depósito é positivo.
-#Atualiza o saldo e registra o depósito no extrato.
-#Exibe uma mensagem de sucesso ou falha.
-#Retorna o novo saldo e o extrato atualizado.
+#### `sacar(self, valor)`
+Realiza um saque da conta, considerando as seguintes restrições:
+- O saldo deve ser suficiente.
+- O valor do saque não pode exceder o limite permitido (R$ 500.00).
+- O número máximo de saques diários (3) não pode ser excedido.
+- **Parâmetros**:
+  - `valor` (float): Valor a ser sacado.
+- **Comportamento**:
+  - Caso válido, reduz o saldo, adiciona o saque ao extrato e incrementa o contador de saques.
+  - Caso inválido, exibe mensagens de erro explicando o motivo (saldo insuficiente, limite excedido, etc.).
 
-def sacar(valor, saldo, extrato, numero_saques, limite, LIMITE_SAQUES):
-    if valor > saldo:
-        print("Operação falhou! Você não tem saldo suficiente.")
-    elif valor > limite:
-        print("Operação falhou! O valor do saque excede o limite.")
-    elif numero_saques >= LIMITE_SAQUES:
-        print("Operação falhou! Número máximo de saques excedido.")
-    elif valor > 0:
-        saldo -= valor
-        extrato += f"Saque: R$ {valor:.2f}\n"
-        numero_saques += 1
-        print(f"Saque de R$ {valor:.2f} realizado com sucesso!")
-    else:
-        print("Operação falhou! O valor informado é inválido.")
-    return saldo, extrato, numero_saques
+#### `exibir_extrato(self)`
+Exibe o histórico de movimentações realizadas na conta e o saldo atual.
+- **Comportamento**:
+  - Imprime o extrato caso existam movimentações.
+  - Caso contrário, informa que não foram realizadas movimentações.
 
-#Define a função sacar que:
-#Verifica se o valor do saque é maior que o saldo.
-#Verifica se o valor do saque excede o limite permitido.
-#Verifica se o número de saques diários já foi atingido.
-#Verifica se o valor do saque é positivo.
-#Atualiza o saldo, registra o saque no extrato, incrementa o número de saques e exibe uma mensagem de sucesso ou falha.
-#Retorna o novo saldo, o extrato atualizado e o número de saques atualizado.
+#### `executar(self)`
+Gera o menu interativo para o usuário e permite realizar operações na conta.
+- **Opções do Menu**:
+  - `[d] Depositar`: Permite ao usuário realizar um depósito, solicitando o valor a ser depositado.
+  - `[s] Sacar`: Permite realizar um saque, solicitando o valor desejado.
+  - `[e] Extrato`: Exibe o histórico de movimentações e o saldo atual.
+  - `[q] Sair`: Finaliza o programa.
+- **Comportamento**:
+  - Solicita ao usuário a escolha de uma opção.
+  - Executa a operação correspondente ou exibe uma mensagem de erro caso a opção seja inválida.
 
-def exibir_extrato(saldo, extrato):
-    print("\n================ EXTRATO ================")
-    if not extrato:
-        print("Não foram realizadas movimentações.")
-    else:
-        print(extrato)
-    print(f"\nSaldo: R$ {saldo:.2f}")
-    print("==========================================")
+---
 
-#Define a função exibir_extrato que:
-#Exibe um cabeçalho para o extrato.
-#Verifica se há movimentações no extrato e exibe o conteúdo.
-#Exibe o saldo atual.
-#Exibe um rodapé para finalizar o extrato.
+### Execução do Programa
+O bloco principal do programa é executado quando o arquivo é executado diretamente.
+- **Comportamento**:
+  - Cria uma instância da classe `Banco`.
+  - Chama o método `executar` para iniciar o sistema bancário.
 
-while True:
-
-#Inicia um loop infinito que será interrompido quando o usuário optar por sair.
-
-    opcao = input(menu)
-
-#Exibe o menu e lê a opção escolhida pelo usuário.
-
-    if opcao == "d":
-        valor = float(input("Informe o valor do depósito: "))
-        saldo, extrato = depositar(valor, saldo, extrato)
-
-#Se a opção for "d" (Depositar):
-#Solicita o valor do depósito.
-#Chama a função depositar e atualiza o saldo e o extrato com o valor depositado.
-
-    elif opcao == "s":
-        valor = float(input("Informe o valor do saque: "))
-        saldo, extrato, numero_saques = sacar(valor, saldo, extrato, numero_saques, limite, LIMITE_SAQUES)
-
-#Se a opção for "s" (Sacar):
-#Solicita o valor do saque.
-#Chama a função sacar e atualiza o saldo, o extrato e o número de saques com os novos valores.
-
-    elif opcao == "e":
-        exibir_extrato(saldo, extrato)
-
-#Se a opção for "e" (Extrato):
-#Chama a função exibir_extrato para exibir o extrato e o saldo atual.
-
-    elif opcao == "q":
-        print("Saindo do sistema. Até logo!")
-        break
-
-#Se a opção for "q" (Sair):
-#Exibe uma mensagem de saída e interrompe o loop, encerrando o programa.
-
-    else:
-        print("Operação inválida, por favor selecione novamente a operação desejada.")
-
-#Se a opção não for nenhuma das anteriores:
-#Exibe uma mensagem indicando que a operação é inválida e solicita que o usuário tente novamente.
+```python
+if __name__ == "__main__":
+    banco = Banco()
+    banco.executar()
+```
